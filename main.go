@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
 	"os"
@@ -33,6 +34,37 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err := plt(args, opts); err != nil {
+		panic(err)
+	}
+}
+
+func plt(args []string, opts options.Options) error {
+	l := len(args)
+	if l < 1 {
+		return errors.New("引数が不足しています。")
+	}
+
+	// 引数が一つの場合は標準入力からデータ読み取り
+	// 引数が２つ以上のときは、ファイル読み取り
+	var r *os.File
+	ofn := args[0]
+	if l < 2 {
+		r = os.Stdin
+	} else {
+		// TODO 入力データは複数指定できるようにする
+		var err error
+		r, err = os.Open(args[1])
+		if err != nil {
+			return err
+		}
+		defer r.Close()
+	}
+
+	return writeGraph(opts, ofn)
+}
+
+func writeGraph(options options.Options, ofn string) error {
 	rand.Seed(int64(0))
 
 	p, err := plot.New()
@@ -53,9 +85,10 @@ func main() {
 	}
 
 	// Save the plot to a PNG file.
-	if err := p.Save(4*vg.Inch, 4*vg.Inch, "points.png"); err != nil {
+	if err := p.Save(4*vg.Inch, 4*vg.Inch, ofn); err != nil {
 		panic(err)
 	}
+	return nil
 }
 
 // randomPoints returns some random x, y points.
