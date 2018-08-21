@@ -1,10 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"math/rand"
 	"os"
+	"strings"
 
 	flags "github.com/jessevdk/go-flags"
 	options "github.com/jiro4989/plt/options"
@@ -61,27 +63,34 @@ func plt(args []string, opts options.Options) error {
 		defer r.Close()
 	}
 
-	return writeGraph(opts, ofn)
+	return writeGraph(r, opts, ofn)
 }
 
-func writeGraph(options options.Options, ofn string) error {
-	rand.Seed(int64(0))
-
+func writeGraph(r *os.File, opts options.Options, ofn string) error {
 	p, err := plot.New()
 	if err != nil {
-		panic(err)
+		return err
+	}
+
+	lines, err := readLines(r)
+	if err != nil {
+		return err
+	}
+	datas, err := getGraphDatas(lines, opts)
+	if err != nil {
+		return err
 	}
 
 	p.Title.Text = "Plotutil example"
 	p.X.Label.Text = "X"
 	p.Y.Label.Text = "Y"
 
-	err = plotutil.AddLinePoints(p,
-		"First", randomPoints(15),
-		"Second", randomPoints(15),
-		"Third", randomPoints(15))
-	if err != nil {
-		panic(err)
+	for _, v := range datas {
+		t := v.Title
+		d := v.Data
+		if err := plotutil.AddLinePoints(p, t, d); err != nil {
+			return err
+		}
 	}
 
 	// Save the plot to a PNG file.
@@ -89,6 +98,29 @@ func writeGraph(options options.Options, ofn string) error {
 		panic(err)
 	}
 	return nil
+}
+
+func readLines(r *os.File) ([]string, error) {
+	lines := make([]string, 0)
+	sc := bufio.NewScanner(r)
+	for sc.Scan() {
+		line := sc.Text()
+		line = strings.TrimSpace(line)
+		lines = append(lines, line)
+	}
+	if err := sc.Err(); err != nil {
+		return nil, err
+	}
+	return lines, nil
+}
+
+type GraphData struct {
+	Title string
+	Data  plotter.XYs
+}
+
+func getGraphDatas(lines []string, opts options.Options) ([]GraphData, error) {
+	return nil, nil
 }
 
 // randomPoints returns some random x, y points.
