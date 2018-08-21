@@ -1,7 +1,7 @@
 package graph
 
 import (
-	options "github.com/jiro4989/plt/options"
+	options "github.com/jiro4989/plt/internal/options"
 	"gonum.org/v1/plot/plotter"
 )
 

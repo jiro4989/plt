@@ -10,7 +10,7 @@ import (
 
 	flags "github.com/jessevdk/go-flags"
 	"github.com/jiro4989/plt/graph"
-	options "github.com/jiro4989/plt/options"
+	options "github.com/jiro4989/plt/internal/options"
 	"gonum.org/v1/plot"
 	"gonum.org/v1/plot/plotter"
 	"gonum.org/v1/plot/plotutil"
