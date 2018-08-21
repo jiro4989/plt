@@ -77,7 +77,7 @@ func writeGraph(r *os.File, opts options.Options, ofn string) error {
 	if err != nil {
 		return err
 	}
-	datas, err := graph.GetGraphs(lines, opts)
+	graphs, err := graph.GetGraphs(lines, opts)
 	if err != nil {
 		return err
 	}
@@ -86,7 +86,7 @@ func writeGraph(r *os.File, opts options.Options, ofn string) error {
 	p.X.Label.Text = "X"
 	p.Y.Label.Text = "Y"
 
-	for _, v := range datas {
+	for _, v := range graphs {
 		t := v.Title
 		d := v.Data
 		if err := plotutil.AddLinePoints(p, t, d); err != nil {
