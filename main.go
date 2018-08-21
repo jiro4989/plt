@@ -63,20 +63,34 @@ func plt(args []string, opts options.Options) error {
 		}
 		defer r.Close()
 	}
+	lines, err := readLines(r)
+	if err != nil {
+		return err
+	}
 
-	return writeGraph(r, opts, ofn)
+	return writeGraph(lines, opts, ofn)
 }
 
-func writeGraph(r *os.File, opts options.Options, ofn string) error {
+func readLines(r *os.File) ([]string, error) {
+	lines := make([]string, 0)
+	sc := bufio.NewScanner(r)
+	for sc.Scan() {
+		line := sc.Text()
+		line = strings.TrimSpace(line)
+		lines = append(lines, line)
+	}
+	if err := sc.Err(); err != nil {
+		return nil, err
+	}
+	return lines, nil
+}
+
+func writeGraph(lines []string, opts options.Options, ofn string) error {
 	p, err := plot.New()
 	if err != nil {
 		return err
 	}
 
-	lines, err := readLines(r)
-	if err != nil {
-		return err
-	}
 	graphs, err := graph.GetGraphs(lines, opts)
 	if err != nil {
 		return err
@@ -99,20 +113,6 @@ func writeGraph(r *os.File, opts options.Options, ofn string) error {
 		panic(err)
 	}
 	return nil
-}
-
-func readLines(r *os.File) ([]string, error) {
-	lines := make([]string, 0)
-	sc := bufio.NewScanner(r)
-	for sc.Scan() {
-		line := sc.Text()
-		line = strings.TrimSpace(line)
-		lines = append(lines, line)
-	}
-	if err := sc.Err(); err != nil {
-		return nil, err
-	}
-	return lines, nil
 }
 
 // randomPoints returns some random x, y points.
