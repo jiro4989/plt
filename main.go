@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	flags "github.com/jessevdk/go-flags"
+	"github.com/jiro4989/plt/graph"
 	options "github.com/jiro4989/plt/options"
 	"gonum.org/v1/plot"
 	"gonum.org/v1/plot/plotter"
@@ -76,7 +77,7 @@ func writeGraph(r *os.File, opts options.Options, ofn string) error {
 	if err != nil {
 		return err
 	}
-	datas, err := getGraphDatas(lines, opts)
+	datas, err := graph.GetGraphs(lines, opts)
 	if err != nil {
 		return err
 	}
@@ -112,15 +113,6 @@ func readLines(r *os.File) ([]string, error) {
 		return nil, err
 	}
 	return lines, nil
-}
-
-type GraphData struct {
-	Title string
-	Data  plotter.XYs
-}
-
-func getGraphDatas(lines []string, opts options.Options) ([]GraphData, error) {
-	return nil, nil
 }
 
 // randomPoints returns some random x, y points.
