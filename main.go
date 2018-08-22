@@ -116,7 +116,7 @@ func writeGraph(lines []string, opts options.Options, ofn string) error {
 
 	// Save the plot to a PNG file.
 	if err := p.Save(4*vg.Inch, 4*vg.Inch, ofn); err != nil {
-		panic(err)
+		return err
 	}
 	return nil
 }
