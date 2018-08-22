@@ -50,14 +50,20 @@ func plt(args []string, opts options.Options) error {
 
 	// 引数が一つの場合は標準入力からデータ読み取り
 	// 引数が２つ以上のときは、ファイル読み取り
-	var r *os.File
-	ofn := args[0]
+	var (
+		r   *os.File
+		ifn string // 入力ファイル
+		ofn string // 出力ファイル名
+	)
 	if l < 2 {
+		ofn = args[0]
 		r = os.Stdin
 	} else {
+		ifn = args[0]
+		ofn = args[1]
 		// TODO 入力データは複数指定できるようにする
 		var err error
-		r, err = os.Open(args[1])
+		r, err = os.Open(ifn)
 		if err != nil {
 			return err
 		}
