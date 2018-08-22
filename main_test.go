@@ -20,6 +20,13 @@ func TestPlt(t *testing.T) {
 			opts: options.Options{},
 			err:  nil,
 		},
+		TestPltData{
+			args: []string{"testdata/in/header_multivalue.tsv", "testdata/out/header_multivalue.png"},
+			opts: options.Options{
+				Separator: "\t",
+			},
+			err: nil,
+		},
 	}
 	for _, v := range testdatas {
 		err := plt(v.args, v.opts)
