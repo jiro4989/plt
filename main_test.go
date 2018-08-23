@@ -18,7 +18,9 @@ func TestPlt(t *testing.T) {
 		TestPltData{
 			args: []string{"testdata/in/value_only.tsv", "testdata/out/value_only.png"},
 			opts: options.Options{
-				Title: "value_only",
+				Title:  "value_only",
+				XLabel: "xxx",
+				YLabel: "yyy",
 			},
 			err: nil,
 		},

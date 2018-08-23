@@ -103,8 +103,8 @@ func writeGraph(lines []string, opts options.Options, ofn string) error {
 	}
 
 	p.Title.Text = opts.Title
-	p.X.Label.Text = "X"
-	p.Y.Label.Text = "Y"
+	p.X.Label.Text = opts.XLabel
+	p.Y.Label.Text = opts.YLabel
 
 	for _, v := range graphs {
 		t := v.Title
