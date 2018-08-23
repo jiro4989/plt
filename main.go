@@ -89,18 +89,20 @@ func readLines(r *os.File) ([]string, error) {
 	return lines, nil
 }
 
+// writeGraph は入力文字列からグラフ画像を出力する。
 func writeGraph(lines []string, opts options.Options, ofn string) error {
 	p, err := plot.New()
 	if err != nil {
 		return err
 	}
 
+	// グラフ出力のためのプロットデータを算出する
 	graphs, err := graph.GetGraphs(lines, opts)
 	if err != nil {
 		return err
 	}
 
-	p.Title.Text = "Plotutil example"
+	p.Title.Text = opts.Title
 	p.X.Label.Text = "X"
 	p.Y.Label.Text = "Y"
 

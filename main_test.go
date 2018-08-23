@@ -17,13 +17,16 @@ func TestPlt(t *testing.T) {
 	testdatas := []TestPltData{
 		TestPltData{
 			args: []string{"testdata/in/value_only.tsv", "testdata/out/value_only.png"},
-			opts: options.Options{},
-			err:  nil,
+			opts: options.Options{
+				Title: "value_only",
+			},
+			err: nil,
 		},
 		TestPltData{
 			args: []string{"testdata/in/header_multivalue.tsv", "testdata/out/header_multivalue.png"},
 			opts: options.Options{
 				Separator: "\t",
+				Title:     "header_multivalue",
 			},
 			err: nil,
 		},

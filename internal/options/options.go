@@ -3,6 +3,7 @@ package option
 // options オプション引数
 type Options struct {
 	Version     func() `short:"v" long:"version" description:"バージョン情報"`
+	Title       string `long:"title" description:"出力グラフのタイトル"`
 	Type        string `short:"t" long:"type" description:"出力グラフタイプ" default:"line"`
 	Separator   string `short:"s" long:"separator" description:"入力データのセパレータ" default:"\t"`
 	Width       int    `long:"width" description:"出力画像横幅(px)" default:"1280"`
