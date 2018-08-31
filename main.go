@@ -15,9 +15,6 @@ import (
 	"gonum.org/v1/plot/vg"
 )
 
-// アプリのバージョン情報
-var Version string
-
 func main() {
 	var opts options.Options
 	opts.Version = func() {
